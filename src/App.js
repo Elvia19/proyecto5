@@ -1,179 +1,200 @@
 import React, { useEffect, useState } from "react";
 
 function App() {
+
+  // Estado donde se guardan las tareas
   const [todos, setTodos] = useState([]);
+
+  // Estado para saber si está cargando la información
   const [loading, setLoading] = useState(true);
+
+  // Estado para el input de nueva tarea
   const [nuevaTarea, setNuevaTarea] = useState("");
+
+  // Estado para controlar el filtro (todas, pendientes, completadas)
   const [filtro, setFiltro] = useState("todas");
 
+  // URL de tu API en AWS
   const API_URL = "https://abcd1234.execute-api.us-east-1.amazonaws.com/todos";
 
-  // Obtener tareas desde la API
+
+  // 🔵 FUNCIÓN PARA OBTENER TAREAS DESDE AWS
   const fetchTodos = async () => {
     try {
       const response = await fetch(API_URL);
       const data = await response.json();
-      setTodos(data);
-      setLoading(false);
+
+      setTodos(data); // Guardamos las tareas en el estado
+      setLoading(false); // Quitamos el estado de carga
     } catch (error) {
-      console.error("Error al cargar los datos:", error);
+      console.error("Error al cargar datos:", error);
       setLoading(false);
     }
   };
 
+  // Se ejecuta automáticamente cuando la app inicia
   useEffect(() => {
     fetchTodos();
   }, []);
 
-  // Agregar nueva tarea
-  const agregarTarea = async () => {
+
+  // 🟢 FUNCIÓN PARA AGREGAR NUEVA TAREA
+  const agregarTarea = () => {
+
+    // Validamos que no esté vacío
     if (nuevaTarea.trim() === "") return;
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ task: nuevaTarea, done: false }),
-      });
-      if (response.ok) {
-        fetchTodos();
-        setNuevaTarea("");
-      }
-    } catch (error) {
-      console.error("Error al agregar tarea:", error);
-    }
+
+    // Creamos una nueva tarea con ID temporal
+    const nueva = {
+      id: Date.now(), // ID único basado en tiempo
+      task: nuevaTarea,
+      done: false
+    };
+
+    // Agregamos la nueva tarea al estado actual
+    setTodos([...todos, nueva]);
+
+    // Limpiamos el input
+    setNuevaTarea("");
   };
 
-  // Marcar tarea como completada/pendiente
-  const toggleDone = async (id, done) => {
-    try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ done: !done }),
-      });
-      if (response.ok) fetchTodos();
-    } catch (error) {
-      console.error("Error al actualizar tarea:", error);
-    }
+
+  // 🟡 FUNCIÓN PARA MARCAR COMPLETADA / PENDIENTE
+  const toggleDone = (id) => {
+    const actualizadas = todos.map(todo =>
+      todo.id === id ? { ...todo, done: !todo.done } : todo
+    );
+
+    setTodos(actualizadas);
   };
 
-  // Filtrar tareas
-  const tareasFiltradas = todos.filter((todo) => {
-    if (filtro === "completadas") return todo.done;
+
+  // 🟣 FILTRO DE TAREAS
+  const tareasFiltradas = todos.filter(todo => {
     if (filtro === "pendientes") return !todo.done;
+    if (filtro === "completadas") return todo.done;
     return true;
   });
 
-  // Estilos
+
+  // 🎨 ESTILOS IMPACTANTES
   const estilos = {
-    contenedor: {
-      maxWidth: "500px",
-      margin: "40px auto",
-      padding: "20px",
-      fontFamily: "Arial, sans-serif",
-      backgroundColor: "#f8f9fa",
-      borderRadius: "10px",
-      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+    fondo: {
+      minHeight: "100vh",
+      background: "linear-gradient(135deg, #667eea, #764ba2)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    },
+    tarjeta: {
+      backgroundColor: "white",
+      padding: "30px",
+      borderRadius: "15px",
+      width: "400px",
+      boxShadow: "0 10px 25px rgba(0,0,0,0.2)"
     },
     titulo: {
       textAlign: "center",
-      color: "#343a40",
+      marginBottom: "20px",
+      color: "#333"
     },
     input: {
-      padding: "10px",
       width: "70%",
-      borderRadius: "5px",
-      border: "1px solid #ced4da",
-      marginRight: "10px",
+      padding: "10px",
+      borderRadius: "8px",
+      border: "1px solid #ccc",
+      marginRight: "10px"
     },
-    boton: {
+    botonAgregar: {
       padding: "10px 15px",
-      borderRadius: "5px",
+      borderRadius: "8px",
       border: "none",
-      backgroundColor: "#007bff",
+      backgroundColor: "#667eea",
       color: "white",
-      cursor: "pointer",
+      cursor: "pointer"
     },
-    filtroBoton: {
-      padding: "5px 10px",
-      margin: "0 5px",
-      borderRadius: "5px",
+    filtros: {
+      marginTop: "15px",
+      marginBottom: "15px",
+      display: "flex",
+      justifyContent: "space-between"
+    },
+    botonFiltro: {
+      padding: "6px 10px",
+      borderRadius: "8px",
       border: "none",
       cursor: "pointer",
+      backgroundColor: "#ddd"
     },
     lista: {
       listStyle: "none",
-      padding: 0,
+      padding: 0
     },
     tarea: (done) => ({
       padding: "10px",
-      margin: "5px 0",
-      borderRadius: "5px",
-      backgroundColor: done ? "#d4edda" : "#fff3cd",
-      color: done ? "#155724" : "#856404",
-      cursor: "pointer",
+      marginBottom: "8px",
+      borderRadius: "8px",
+      backgroundColor: done ? "#d4edda" : "#f8d7da",
       display: "flex",
       justifyContent: "space-between",
-      alignItems: "center",
-    }),
+      cursor: "pointer"
+    })
   };
 
+
   return (
-    <div style={estilos.contenedor}>
-      <h1 style={estilos.titulo}>Lista de Tareas</h1>
+    <div style={estilos.fondo}>
+      <div style={estilos.tarjeta}>
 
-      {/* Input y botón para nueva tarea */}
-      <div style={{ marginBottom: "15px" }}>
-        <input
-          style={estilos.input}
-          type="text"
-          value={nuevaTarea}
-          placeholder="Agregar nueva tarea"
-          onChange={(e) => setNuevaTarea(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && agregarTarea()}
-        />
-        <button style={estilos.boton} onClick={agregarTarea}>
-          Agregar
-        </button>
+        <h1 style={estilos.titulo}>📌 Lista de Tareas</h1>
+
+        {/* INPUT Y BOTÓN */}
+        <div>
+          <input
+            style={estilos.input}
+            type="text"
+            placeholder="Escribe una nueva tarea..."
+            value={nuevaTarea}
+            onChange={(e) => setNuevaTarea(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && agregarTarea()}
+          />
+          <button style={estilos.botonAgregar} onClick={agregarTarea}>
+            Agregar
+          </button>
+        </div>
+
+        {/* BOTONES DE FILTRO */}
+        <div style={estilos.filtros}>
+          <button style={estilos.botonFiltro} onClick={() => setFiltro("todas")}>
+            Todas
+          </button>
+          <button style={estilos.botonFiltro} onClick={() => setFiltro("pendientes")}>
+            Pendientes
+          </button>
+          <button style={estilos.botonFiltro} onClick={() => setFiltro("completadas")}>
+            Completadas
+          </button>
+        </div>
+
+        {/* LISTA */}
+        {loading ? (
+          <p>Cargando tareas...</p>
+        ) : (
+          <ul style={estilos.lista}>
+            {tareasFiltradas.map(todo => (
+              <li
+                key={todo.id}
+                style={estilos.tarea(todo.done)}
+                onClick={() => toggleDone(todo.id)}
+              >
+                <span>{todo.task}</span>
+                <span>{todo.done ? "✅" : "❌"}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
       </div>
-
-      {/* Botones de filtro */}
-      <div style={{ marginBottom: "20px", textAlign: "center" }}>
-        <button
-          style={{ ...estilos.filtroBoton, backgroundColor: filtro === "todas" ? "#007bff" : "#6c757d", color: "white" }}
-          onClick={() => setFiltro("todas")}
-        >
-          Todas
-        </button>
-        <button
-          style={{ ...estilos.filtroBoton, backgroundColor: filtro === "pendientes" ? "#ffc107" : "#6c757d", color: "white" }}
-          onClick={() => setFiltro("pendientes")}
-        >
-          Pendientes
-        </button>
-        <button
-          style={{ ...estilos.filtroBoton, backgroundColor: filtro === "completadas" ? "#28a745" : "#6c757d", color: "white" }}
-          onClick={() => setFiltro("completadas")}
-        >
-          Completadas
-        </button>
-      </div>
-
-      {/* Lista de tareas */}
-      {loading ? (
-        <p>Cargando tareas...</p>
-      ) : tareasFiltradas.length === 0 ? (
-        <p>No hay tareas para mostrar</p>
-      ) : (
-        <ul style={estilos.lista}>
-          {tareasFiltradas.map((todo) => (
-            <li key={todo.id} style={estilos.tarea(todo.done)} onClick={() => toggleDone(todo.id, todo.done)}>
-              <span>{todo.task}</span>
-              <span>{todo.done ? "✅" : "❌"}</span>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }
