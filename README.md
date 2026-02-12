@@ -1,70 +1,104 @@
-# Getting Started with Create React App
+# 📌 Lista de Tareas Básica
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+## 📖 Descripción del Proyecto
 
-In the project directory, you can run:
+**Lista de Tareas Básica** es una aplicación web desarrollada con **React** que permite visualizar y gestionar tareas pendientes.
 
-### `npm start`
+Las tareas se obtienen desde una **API desplegada en AWS Lambda**, lo que permite integrar un frontend moderno con un backend en la nube.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+El proyecto está accesible públicamente mediante una URL generada por **Vercel**, permitiendo que cualquier persona pueda acceder desde su navegador.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🎯 Objetivos del Proyecto
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- ✅ Practicar la integración entre frontend y backend
+- ☁️ Desplegar una API en la nube (AWS)
+- 🌍 Publicar una aplicación React accesible públicamente
+- 📝 Documentar correctamente el código y funcionamiento del sistema
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Funcionalidades
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 📋 Mostrar lista de tareas desde una API en AWS  
+- ➕ Agregar nuevas tareas  
+- 🔄 Marcar tareas como completadas o pendientes  
+- 🔍 Filtrar tareas (Todas, Pendientes, Completadas)  
+- 🌐 Acceso público mediante URL  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🛠️ Tecnologías Utilizadas
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Tecnología | Uso |
+|------------|------|
+| React | Desarrollo del frontend |
+| AWS Lambda | Backend en la nube |
+| API Gateway | Conexión HTTP |
+| Vercel | Despliegue del frontend |
+| JavaScript (ES6) | Lógica de programación |
+| HTML & CSS | Estructura y estilos |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🌍 Acceso Público
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+👉 **https://proyecto5-xi.vercel.app**
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ⚙️ Cómo ejecutar el proyecto localmente
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+git clone https://github.com/Elvia19/proyecto5.git
+cd proyecto5
+npm install
+npm start
+```
 
-### Code Splitting
+Para construir versión de producción:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+npm run build
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📁 Estructura del Proyecto
 
-### Making a Progressive Web App
+```
+src/
+ ├── App.js
+ ├── index.js
+ ├── index.css
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **App.js** → Contiene la lógica principal y conexión con la API.
+- **index.js** → Punto de entrada de React.
+- **index.css** → Estilos globales.
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🧠 Arquitectura del Proyecto
 
-### Deployment
+```
+Usuario → React → API Gateway → AWS Lambda → Respuesta JSON
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+El frontend realiza peticiones HTTP a la API en AWS, la cual devuelve las tareas en formato JSON.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🏁 Conclusión
+
+Este proyecto demuestra:
+
+- ✔ Integración frontend-backend
+- ✔ Despliegue en la nube
+- ✔ Aplicación accesible públicamente
+- ✔ Código documentado correctamente
+
+✨ Proyecto académico desarrollado como práctica de integración en la nube.
