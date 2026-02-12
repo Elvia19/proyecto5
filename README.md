@@ -101,4 +101,4 @@ Este proyecto demuestra:
 - ✔ Aplicación accesible públicamente
 - ✔ Código documentado correctamente
 
-✨ Proyecto académico desarrollado como práctica de integración en la nube.
+✨ Proyecto desarrollado como práctica de integración en la nube.
